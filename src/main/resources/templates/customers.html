@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Customers & Chat</title>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script>
+        async function askQuestion() {
+            const question = document.getElementById("question").value;
+            const responseArea = document.getElementById("response");
+
+            responseArea.innerText = "Thinking...";
+
+            const response = await fetch("/ask", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ question })
+            });
+
+            const data = await response.json();
+            responseArea.innerText = data.answer;
+        }
+    </script>
+</head>
+<body>
+<h1>Customer List</h1>
+<h2>Ask a Question</h2>
+<input type="text" id="question" placeholder="Type your question here..." size="60">
+<button onclick="askQuestion()">Ask</button>
+<button>Train</button>
+<p><strong>Answer:</strong> <span id="response"></span></p>
+
+<hr>
+<table>
+    <thead>
+    <tr>
+        <th>Index</th>
+        <th>Customer ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Company</th>
+        <th>City</th>
+        <th>Country</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cust : ${customers}">
+        <td th:text="${cust.index}"></td>
+        <td th:text="${cust.customerId}"></td>
+        <td th:text="${cust.firstName}"></td>
+        <td th:text="${cust.lastName}"></td>
+        <td th:text="${cust.company}"></td>
+        <td th:text="${cust.city}"></td>
+        <td th:text="${cust.country}"></td>
+        <td th:text="${cust.email}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<hr>
+
+
+</body>
+</html>
