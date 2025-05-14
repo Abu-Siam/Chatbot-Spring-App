@@ -42,7 +42,18 @@
 <h2>Ask a Question</h2>
 <input type="text" id="question" placeholder="Type your question here..." size="60">
 <button onclick="askQuestion()">Ask</button>
-<button>Train</button>
+<button onclick="train()">Train</button>
+
+<script>
+    async function train() {
+        const response = await fetch("/train", {
+            method: "POST"
+        });
+
+        const data = await response.json();
+        alert("Training status: " + data.message + "Jodi wait korte na chan gpu wala pc den :P");
+    }
+</script>
 <p><strong>Answer:</strong> <span id="response"></span></p>
 
 <hr>
@@ -56,7 +67,11 @@
         <th>Company</th>
         <th>City</th>
         <th>Country</th>
+        <th>Phone 1</th>
+        <th>Phone 2</th>
         <th>Email</th>
+        <th>Subscription Date</th>
+        <th>Website</th>
     </tr>
     </thead>
     <tbody>
@@ -68,7 +83,11 @@
         <td th:text="${cust.company}"></td>
         <td th:text="${cust.city}"></td>
         <td th:text="${cust.country}"></td>
+        <td th:text="${cust.phone1}"></td>
+        <td th:text="${cust.phone2}"></td>
         <td th:text="${cust.email}"></td>
+        <td th:text="${cust.subscriptionDate}"></td>
+        <td th:text="${cust.website}"></td>
     </tr>
     </tbody>
 </table>
